@@ -7,8 +7,8 @@ class DNATestCase extends DrupalUnitTestCase
 
         //just returns information about the tests in this class.
         return array(
-        'name' => 'My Date unit tests',
-        'description' => 'Test that dna_empty_mysql_date works properly.',
+        'name' => 'My DNA unit tests',
+        'description' => 'Test that dna_transform works properly.',
         'group' => 'Epicodus Examples Tests',
         );
 
@@ -18,44 +18,51 @@ class DNATestCase extends DrupalUnitTestCase
     //unit test methods must start with 'test'
     //it is encouraged to group several assert statements into one test method for drupal unit tests.
 
-    function testEmptyMySQLDate()
+    function testDnaTransform()
     {
 
         //English description
         //displays desired result during test
-        $description = 'An empty string should return TRUE.';
+        $description = 'A value of "a" should return "T"';
 
         //Arrange
         //create input
-        $input = '';
+        $input = 'a';
 
         //Act
         //run the function we're testing with input and store output in $result.
-        $result = dna_empty_mysql_date($input);
+        $result = dna_transform($input);
 
         //Assert
         //not quite the same as assertEquals.
         //using assertTrue: if $result is true, test passes.
         //pass in $description for display.
-        $this->assertTrue($result, $description);
+        $expected_output = 'T';
+        $this->assertTrue($result, $expected_output, $description);
 
         //Here are the rest of the tests from the example
-        $description = 'A NULL value should return TRUE.';
-        $input = NULL;
-        $result = dna_empty_mysql_date($input);
-        $this->assertTrue($result, $description);
+        $description = 'A value of "t" should return "A"';
+        $input = 't';
+        $result = dna_transform($input);
+        $expected_output = 'A';
+        $this->assertTrue($result, $expected_output, $description);
 
-        $description = 'An "empty" MySQL DATE should return TRUE.';
-        $input = '0000-00-00';
-        $result = dna_empty_mysql_date($input);
-        $this->assertTrue($result, $description);
+        $description = 'A value of "g" should return "C"';
+        $input = 'g';
+        $result = dna_transform($input);
+        $expected_output = 'C';
+        $this->assertTrue($result, $expected_output, $description);
 
-        $description = 'A valid date should return FALSE.';
-        $input = date('Y-m-d'); //input is today's date.
-        $result = dna_empty_mysql_date($input);
-        $this->assertFalse($result, $description);
+        $description = 'A value of "c" should return "G"';
+        $input = 'c';
+        $result = dna_transform($input);
+        $expected_output = 'G';
+        $this->assertTrue($result, $expected_output, $description);
 
-
+        $description = 'A value of "acgt" should return "TGCA"';
+        $input = 'acgt';
+        $result = dna_transform($input);
+        $expected_output = 'TGCA';
+        $this->assertTrue($result, $expected_output, $description);
     }
-
 }
