@@ -1,0 +1,61 @@
+<?php
+
+function dna_menu() {
+    $items['dna_input'] = array(
+        'title' => 'DNA string input',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('dna_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['dna_success'] = array(
+        'title' => 'Checked the date',
+        'page callback' => 'dna_display',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function dna_form() {
+
+    $form['input_dna_string'] = array(
+        '#title' => 'Input Date',
+        '#type' => 'textfield',
+        '#description' => t("Input only ACGT, to find corresponding base pair"),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Is it empty?',
+    );
+
+    return $form;
+}
+
+function dna_form_submit($form, &$form_state) {
+    $input_dna_string = $form_state['values']['input_dna_string'];
+    $result = dna_empty_mysql_date($input_dna_string);
+    $_SESSION['dna_empty'] = $result;
+    $form_state['redirect'] = 'dna_success';
+}
+
+
+function dna_empty_mysql_date($date_string) {
+    if (empty($date_string) || $date_string == '0000-00-00' || $date_string == '0000-00-00 00:00:00') {
+        $date_is_empty = TRUE;
+    }
+    else {
+        $date_is_empty = FALSE;
+    }
+
+    return $date_is_empty;
+}
+
+function dna_display() {
+    if ($_SESSION['dna_empty']) {
+        return "<p>That date was empty!</p>";
+    } else {
+        return "<p>That date was not empty. Not sure if it's in the right format or not though. </p>";
+    }
+}
