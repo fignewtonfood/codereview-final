@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ajax Feature feature.
+ */
+
+include_once 'ajax_feature.features.inc';
