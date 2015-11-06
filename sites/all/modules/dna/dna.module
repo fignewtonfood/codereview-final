@@ -34,11 +34,13 @@ function dna_form() {
 }
 
 function element_validate_base($element) {
+    //splits string for easier validation
     $split = str_split($element['#value']);
     print_r($split);
     $reference = array('A', 'a', 'C', 'c', 'G', 'g', 'T', 't');
     foreach ($split as $base) {
-        print_r(array_search($base, $reference) >= 0);
+        //if there are no matches between input and reference array, display
+        //error
         if (!in_array($base, $reference)) {
             form_error($element, t('Only A, C, G, or T allowed'));
         }
@@ -55,6 +57,8 @@ function dna_form_submit($form, &$form_state) {
 function dna_transform($dna_string) {
     $output_base_pairs = "";
     $split_string = str_split($dna_string);
+    //splits string into array and evaluates the value of each array item
+    //pushes complimentary pair to new array
     foreach ($split_string as $base_pair) {
         if ($base_pair == 'A' || $base_pair == 'a') {
             $output_base_pairs .= 'T';
@@ -71,5 +75,5 @@ function dna_transform($dna_string) {
 
 function dna_display() {
     $output = $_SESSION['dna_results'];
-    return "<p>".$output."</p>";
+    return "<h2>".$output."</h2>";
 }

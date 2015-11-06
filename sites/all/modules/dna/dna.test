@@ -17,17 +17,12 @@ class DNATests extends DrupalWebTestCase {
     }
 
     public function createTestingPage() {
-       //$info = the information needed to create the basic page at the url `pagetest`.
+       //$info = the information needed to create the basic page at the url `dna_input`.
        $info = array();
        $info['input_dna_string'] = "ATGC";
 
        //save the new page
        $this->drupalPost('dna_input', $info, t('Find Pairs'));
-
-       //set new page to the correct path. We know this will be node/1 because we are starting from scratch.
-    //    $path['source'] = 'dna_success';
-    //    $path['alias'] = 'pagetest';
-    //    path_save($path);
    }
 
    public function drupalCreateAdminUser(array $permissions = array()) {
@@ -39,19 +34,15 @@ class DNATests extends DrupalWebTestCase {
     }
 
     public function testNewPage() {
-        // Navigate to /pagetest.
-        // $this->drupalGet('pagetest');
-        // Verify that the text "1, 2, 3!", exists on the page.
+        // Verify that the text "TACG", exists on the page.
         $this->assertText("TACG", 'The text on the page is correct. Hoorah!');
     }
 }
 
 class DNATestCase extends DrupalUnitTestCase
 {
-
     public static function getInfo()
     {
-
         //just returns information about the tests in this class.
         return array(
         'name' => 'My DNA unit tests',
@@ -64,22 +55,17 @@ class DNATestCase extends DrupalUnitTestCase
     //no setUp() for unit tests.
     //unit test methods must start with 'test'
     //it is encouraged to group several assert statements into one test method for drupal unit tests.
-
     function testDnaTransform()
     {
-
         //English description
         //displays desired result during test
         $description = 'A value of "a" should return "T"';
-
         //Arrange
         //create input
         $input = 'a';
-
         //Act
         //run the function we're testing with input and store output in $result.
         $result = dna_transform($input);
-
         //Assert
         //not quite the same as assertEquals.
         //using assertTrue: if $result is true, test passes.
